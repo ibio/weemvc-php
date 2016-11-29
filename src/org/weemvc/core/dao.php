@@ -1,6 +1,7 @@
 <?php
-require_once './org/weemvc/util/lx_externalinput_clean.php';
-require_once './org/weemvc/pager.php';
+namespace org\weemvc\core;
+use org\weemvc\Pager;
+use org\weemvc\util\lx_externalinput_clean as InputCleaner;
 
 //Abstract DAO
 abstract class DAO{
@@ -285,6 +286,6 @@ abstract class DAO{
   protected function filterXSS($str){
     $str = trim($str);
     $str = addcslashes($str, "\n, \r, \t, \$, \', \", \\");
-    return lx_externalinput_clean::basic($str);
+    return InputCleaner::basic($str);
   }
 }

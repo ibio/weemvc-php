@@ -1,6 +1,8 @@
 <?php
-require_once './org/weemvc/pager.php';
-require_once './org/weemvc/core/application.php';
+namespace org\weemvc\core;
+use \PDO;
+use org\weemvc\Pager;
+use org\weemvc\util\AutoloadHelper;
 
 class Controller{
   /**
@@ -30,7 +32,7 @@ class Controller{
 
   /**
    * Load the model with the given name.
-   * getDAO("SongModel") would include models/songmodel.php and create the object in the controller, like this:
+   * getDAO("SongModel") would include model/dao/songmodel.php and create the object in the controller, like this:
    * $songs_model = $this->getDAO('SongsModel');
    * Note that the model class name is written in "CamelCase", the model's filename is the same in lowercase letters
    * @param string $modelName The name of the model
@@ -38,18 +40,18 @@ class Controller{
    */
   public function getDAO($modelName){
     $model = null;
-    $classPath = Application::$DAO_PATH . strtolower($modelName);
-    $filePath = "{$classPath}.php";
-    if(file_exists($filePath)){
-      require_once $filePath;
-      if(class_exists($modelName)){
-        try{
-          $model = new $modelName($this->_db);
-        }catch(Exception $e) {
-          Pager::output(1000, null, "new DAO exception: {$e->getMessage()}", $this);
-          exit;
-        }
+    $className = Application::$DAO_PATH . $modelName;
+    $filePath = AutoloadHelper::getPathFromNamespace($className);
+    if(file_exists($filePath) && class_exists($className)){
+      try{
+        $model = new $className($this->_db);
+      }catch(Exception $e) {
+        Pager::output(1000, null, "new DAO exception: {$e->getMessage()}", $this);
+        exit;
       }
+    }else{
+      Pager::output(1000, null, "DAO $filePath does not exist.}", $this);
+      exit;
     }
     // return new model (and pass the database connection to the model)
     return $model;
@@ -57,36 +59,36 @@ class Controller{
 
   public function getPlugin($pluginName){
     $plugin = null;
-    $classPath = Application::$PLUGIN_PATH . strtolower($pluginName);
-    $filePath = "{$classPath}.php";
-    if(file_exists($filePath)){
-      require_once $filePath;
-      if(class_exists($pluginName)){
-        try{
-          $plugin = new $pluginName($this->_db);
-        }catch(Exception $e) {
-          Pager::output(1000, null, "new plugin exception: {$e->getMessage()}", $this);
-          exit;
-        }
+    $className = Application::$PLUGIN_PATH . $pluginName;
+    $filePath = AutoloadHelper::getPathFromNamespace($className);
+    if(file_exists($filePath) && class_exists($className)){
+      try{
+        $plugin = new $className($this->_db);
+      }catch(Exception $e) {
+        Pager::output(1000, null, "new plugin exception: {$e->getMessage()}", $this);
+        exit;
       }
+    }else{
+      Pager::output(1000, null, "plugin $filePath does not exist.}", $this);
+      exit;
     }
     return $plugin;
   }
 
   private function getCommand($commandName){
     $command = null;
-    $classPath = Application::$COMMAND_PATH . strtolower($commandName);
-    $filePath = "{$classPath}.php";
-    if (file_exists($filePath)) {
-      require_once $filePath;
-      if(class_exists($commandName)){
-        try{
-          $command = new $commandName();
-        }catch(Exception $e) {
-          Pager::output(1000, null, "new command exception: {$e->getMessage()}", $this);
-          exit;
-        }
+    $className = Application::$COMMAND_PATH . $commandName;
+    $filePath = AutoloadHelper::getPathFromNamespace($className);
+    if (file_exists($filePath) && class_exists($className)) {
+      try{
+        $command = new $className();
+      }catch(Exception $e) {
+        Pager::output(1000, null, "new command exception: {$e->getMessage()}", $this);
+        exit;
       }
+    }else{
+      Pager::output(1000, null, "command $filePath does not exist.}", $this);
+      exit;
     }
     return $command;
   }

@@ -1,4 +1,5 @@
 <?php
+namespace org\weemvc;
 
 class Pager{
 

@@ -1,5 +1,6 @@
 <?php
-require_once './org/weemvc/core/command.php';
+namespace org\weemvc\core;
+use org\weemvc\Pager;
 
 /**
  * Router class

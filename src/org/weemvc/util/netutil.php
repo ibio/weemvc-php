@@ -1,4 +1,6 @@
 <?php
+namespace org\weemvc\util;
+
 class NetUtil {
   //http://wezfurlong.org/blog/2006/nov/http-post-from-php-without-curl/
   static public function request($url, $params = null, $usePost = false){

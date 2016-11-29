@@ -1,6 +1,6 @@
 <?php
-require_once './org/weemvc/core/application.php';
-require_once './org/weemvc/pager.php';
+namespace org\weemvc\core;
+use org\weemvc\Pager;
 /**
  * Base command class
  */
