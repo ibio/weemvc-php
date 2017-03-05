@@ -3,12 +3,12 @@ namespace org\weemvc\util;
 
 class NetUtil {
   //http://wezfurlong.org/blog/2006/nov/http-post-from-php-without-curl/
-  static public function request($url, $params = null, $usePost = false){
+  static public function request($url, $params = null, $type = 'GET'){
     $cparams = array(
       //NOTICE: no matter to use http or https, always write http here
       'http' => array(
         'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-        'method' => $usePost ? 'POST' : 'GET',
+        'method' => $type,
         'ignore_errors' => true
       )
     );
