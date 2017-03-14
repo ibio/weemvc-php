@@ -1,6 +1,9 @@
 <?php
 namespace org\weemvc\util;
 
+use \Tidy;
+use \Domdocument;
+
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2001-2008 Liip AG                                      |
 // +----------------------------------------------------------------------+
@@ -98,7 +101,7 @@ class lx_externalinput_clean {
     }
     
     static private function tidyUpModuleDom($string) {
-        $dom = new domdocument();
+        $dom = new Domdocument();
         @$dom->loadHTML("<html><body>" . $string . "</body></html>");
         $string = '';
         foreach ($dom->documentElement->firstChild->childNodes as $child) {
@@ -108,8 +111,8 @@ class lx_externalinput_clean {
     }
     
     static private function tidyUpModuleTidy($string) {
-        if (class_exists("tidy")) {
-            $tidy = new tidy();
+        if (class_exists("Tidy")) {
+            $tidy = new Tidy();
             $tidyOptions = array("output-xhtml" => true, 
                                  "show-body-only" => true, 
                                  "clean" => true, 

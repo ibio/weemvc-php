@@ -1,5 +1,6 @@
 <?php
 namespace org\weemvc\core;
+// for native classes
 use \ReflectionMethod;
 use org\weemvc\Pager;
 use org\weemvc\util\AutoloadHelper;

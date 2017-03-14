@@ -1,5 +1,6 @@
 <?php
 namespace org\weemvc\core;
+
 use org\weemvc\Pager;
 
 /**
