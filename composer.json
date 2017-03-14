@@ -13,7 +13,7 @@
         "php": ">=5.5"
     },
     "autoload": {
-        "exclude-from-classmap": ["Domdocument", "Tidy"],
+        "exclude-from-classmap": ["src/org/weemvc/util/**"],
         "psr-4": {
             "org\\weemvc\\": "src/org/weemvc"
         }
