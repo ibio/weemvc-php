@@ -3,12 +3,15 @@ namespace org\weemvc\util;
 
 class AutoloadHelper {
 
-	public static function register(){
+  public static function register(){
     spl_autoload_register(function ($path) {
-    	// http://stackoverflow.com/questions/11255095/cannot-access-self-when-no-class-scope-is-active
-    	// why not self::?
+      // http://stackoverflow.com/questions/11255095/cannot-access-self-when-no-class-scope-is-active
+      // why not self:: --> because this is a closure
       $class = AutoloadHelper::getPathFromNamespace($path);
-      require_once($class);
+      // http://stackoverflow.com/questions/22147261/how-to-prevent-spl-autoload-register-from-loading-native-php-classes      
+      if(file_exists($class)){
+        require_once($class);
+      }
     });
   }
 
