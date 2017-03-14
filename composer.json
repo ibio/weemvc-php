@@ -9,5 +9,12 @@
             "email": "ibio520@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "php": ">=5.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "org\\weemvc\\": "src/org/weemvc"
+        }
+    },
 }
