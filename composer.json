@@ -1,6 +1,6 @@
 {
     "name": "ibio/weemvc-php",
-    "description": "This is a mini PHP MVC framework. It's good for beginers as a painless study experience.",
+    "description": "This is a mini PHP MVC framework. It's good for beginners as a painless study experience.",
     "type": "library",
     "license": "MIT License",
     "authors": [
@@ -16,5 +16,5 @@
         "psr-4": {
             "org\\weemvc\\": "src/org/weemvc"
         }
-    },
+    }
 }
