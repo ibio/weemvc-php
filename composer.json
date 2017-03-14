@@ -1,0 +1,13 @@
+{
+    "name": "ibio/weemvc-php",
+    "description": "This is a mini PHP MVC framework. It's good for beginers as a painless study experience.",
+    "type": "library",
+    "license": "MIT License",
+    "authors": [
+        {
+            "name": "IbiTan",
+            "email": "ibio520@gmail.com"
+        }
+    ],
+    "require": {}
+}
