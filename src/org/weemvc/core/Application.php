@@ -35,11 +35,11 @@ class Application{
     // yet, everything in here could be running multiple time.
   }
 
-  public static function getInstance(){
+  public static function getInstance($defaultRouter = false){
     if(!isset(self::$_instance)){
         self::$_instance = new Application();
         // initialize everything, and make sure it only run once
-        self::$_instance->initialize();
+        self::$_instance->initialize($defaultRouter);
     }
     return self::$_instance;
   }
@@ -48,7 +48,7 @@ class Application{
     return $this->_controller;
   }
 
-  private function initialize(){
+  private function initialize($defaultRouter){
     if (!defined('DB_TYPE')   || 
         !defined('DB_PREFIX') || 
         !defined('DB_HOST')   || 
@@ -56,13 +56,15 @@ class Application{
         !defined('DB_USER')   || 
         !defined('DB_PASS')) {
       Pager::output(1000, null, "initialize failed, you need to define: DB_TYPE DB_PREFIX DB_HOST DB_NAME DB_USER DB_PASS", $this);
-      exit;
+      exit();
     }
     $this->_controller = new Controller();
-    // create array with URL parts in url
-    $this->splitUrl();
-    // Analyze the URL elements and calls the according controller/method or the fallback
-    $this->startRouting();
+    if($defaultRouter){
+      // create array with URL parts in url
+      $this->splitUrl();
+      // Analyze the URL elements and calls the according controller/method or the fallback
+      $this->startRouting();
+    }
   }
 
   private function defaultRouter(){
@@ -82,7 +84,7 @@ class Application{
           $this->_router = new $className();
       }catch(Exception $e) {
         Pager::output(1000, null, "new controller exception: {$e->getMessage()}", $this);
-        exit;
+        exit();
       }
       // check for method: does such a method exist in the controller
       if(method_exists($this->_router, $this->_actionKey)){
@@ -91,13 +93,13 @@ class Application{
         // http://stackoverflow.com/questions/4160901/how-to-check-if-a-function-is-public-or-protected-in-php
         $reflection = new ReflectionMethod($this->_router, $this->_actionKey);
         if ($reflection->isPublic()) {
-          $this->_router->{$this->_actionKey}($_GET, $_POST);
+          $this->_router->{$this->_actionKey}();
         }else{
-          $this->_router->index($_GET, $_POST);
+          $this->_router->index();
         }
       }else{
         // default/fallback: call the index() method of a selected controller
-        $this->_router->index($_GET, $_POST);
+        $this->_router->index();
       }
     }else{
       $this->defaultRouter();

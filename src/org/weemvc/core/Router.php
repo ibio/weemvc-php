@@ -17,7 +17,7 @@ class Router extends Command{
    */
 
   // default
-  public function index($get, $post){
+  public function index(){
     Pager::output(1001, null, 'router/index', $this);
   }
 

@@ -26,7 +26,7 @@ abstract class DAO{
       $this->db = $db;
     } catch (PDOException $e) {
       Pager::output(1000, null, "new PDO exception: {$e->getMessage()}", $this);
-      exit;
+      exit();
     }
 	}
 

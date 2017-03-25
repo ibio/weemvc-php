@@ -48,11 +48,11 @@ class Controller{
         $model = new $className($this->_db);
       }catch(Exception $e) {
         Pager::output(1000, null, "new DAO exception: {$e->getMessage()}", $this);
-        exit;
+        exit();
       }
     }else{
       Pager::output(1000, null, "DAO $filePath does not exist.}", $this);
-      exit;
+      exit();
     }
     // return new model (and pass the database connection to the model)
     return $model;
@@ -67,11 +67,11 @@ class Controller{
         $plugin = new $className($this->_db);
       }catch(Exception $e) {
         Pager::output(1000, null, "new plugin exception: {$e->getMessage()}", $this);
-        exit;
+        exit();
       }
     }else{
       Pager::output(1000, null, "plugin $filePath does not exist.}", $this);
-      exit;
+      exit();
     }
     return $plugin;
   }
@@ -85,11 +85,11 @@ class Controller{
         $command = new $className();
       }catch(Exception $e) {
         Pager::output(1000, null, "new command exception: {$e->getMessage()}", $this);
-        exit;
+        exit();
       }
     }else{
       Pager::output(1000, null, "command $filePath does not exist.}", $this);
-      exit;
+      exit();
     }
     return $command;
   }
@@ -108,13 +108,19 @@ class Controller{
     );
 
     // generate a database connection, using the PDO connector
-    // @see http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
-    try {
-      $this->_db = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS, $options);
-    } catch (Exception $e) {
-      Pager::output(1000, null, "new PDO exception: {$e->getMessage()}", $this);
-      exit;
-    }  
+    
+    if(empty(DB_TYPE) || empty(DB_HOST) || empty(DB_NAME) || empty(DB_USER) || empty(DB_PASS)){
+      Pager::output(1000, null, "db config is wrong", $this);
+      exit();
+    }else{
+      // @see http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
+      try {
+        $this->_db = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS, $options);
+      } catch (Exception $e) {
+        Pager::output(1000, null, "new PDO exception: {$e->getMessage()}", $this);
+        exit();
+      }
+    }
   }
 
 }

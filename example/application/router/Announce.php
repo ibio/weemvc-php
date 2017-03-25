@@ -7,9 +7,9 @@ use org\weemvc\Pager as Pager;
 
 class Announce extends Router{
 
-  public function save($get, $post){
+  public function save(){
     $userModel = $this->_controller->getDAO('UserModel');
-     if(!isset($post['title']) || !isset($post['link'])){
+     if(!isset($_POST['title']) || !isset($_POST['link'])){
       echo json_encode(array('ret' => 0, 'message' => 'title or link is null'));
       Pager::output(998, 'title or link is null', $model->error(), $this);
 
@@ -20,36 +20,36 @@ class Announce extends Router{
     }else{
       //get
       $model = $this->_controller->getDAO('AnnounceModel');
-      if($post['id'] >= 0){
-        $result = $model->updateById($post['id'],$post['title'],$post['products'],$post['description'],$post['link'],$post['forTotal'],$post['forQuantity'],$post['images']);
-          $data = array('isNew' => false, 'id' => intval($post['id']));
+      if($_POST['id'] >= 0){
+        $result = $model->updateById($_POST['id'],$_POST['title'],$_POST['products'],$_POST['description'],$_POST['link'],$_POST['forTotal'],$_POST['forQuantity'],$_POST['images']);
+          $data = array('isNew' => false, 'id' => intval($_POST['id']));
       }else{
-        $result = $model->add($post['title'],$post['products'],$post['description'],$post['link'],$post['forTotal'],$post['forQuantity'],$post['images']);
+        $result = $model->add($_POST['title'],$_POST['products'],$_POST['description'],$_POST['link'],$_POST['forTotal'],$_POST['forQuantity'],$_POST['images']);
         $data = array('isNew' => true, 'id' => $result);
       }
       Pager::output($result ? 0 : 999, $data, $model->error(), $this);
     }
   }
 
-  public function delete($get, $post){
+  public function delete(){
     $userModel = $this->_controller->getDAO('UserModel');
-    if(!isset($post['id'])){
+    if(!isset($_POST['id'])){
       echo json_encode(array('ret' => 0, 'message' => 'id is null'));
     }else if(!$userModel->checkSession()){
       echo json_encode(array('ret' => 0, 'message' => 'you need to login'));
     }else{
       //get
       $model = $this->_controller->getDAO('AnnounceModel');
-      $result = $model->deleteById($post['id']);
-      $obj = array('id' => $post['id']);
+      $result = $model->deleteById($_POST['id']);
+      $obj = array('id' => $_POST['id']);
       Pager::output($result ? 0 : 999, $obj, $model->error(), $this);
     }
   }
 
-  public function get($get, $post){
+  public function get(){
     $this->_controller->prepareDatabase();
-    // var_dump($get);
-    // var_dump($post);
+    // var_dump($_GET);
+    // var_dump($_POST);
     //get
     $model = $this->_controller->getDAO('AnnounceModel');
     $list = $model->get();
