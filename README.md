@@ -3,6 +3,7 @@ A mini-size, elegant, php MVC framework for interface output.
 
 # How to install
 ## 1 using composer
+https://packagist.org/packages/ibio/weemvc-php
 ```
 composer require ibio/weemvc-php
 
